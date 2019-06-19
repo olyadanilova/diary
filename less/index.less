@@ -1,0 +1,123 @@
+@import "variable";
+.btn-primary {
+  &:focus, &.focus {
+    box-shadow: none !important;
+    outline: none;
+    border-color: #fff !important;
+    background-color: @base-button-bgcolor !important;
+  }
+  &:active:focus{
+    background-color: @base-button-hover-bgcolor !important;
+  }
+}
+.btn-table{
+  width: 35px;
+  background-color: white;
+  border-color: white;
+  height: 35px;
+  padding: 0;
+  margin: 0;
+  &:hover, &:focus, &:active {
+    background-color: white;
+    border-color: white;
+  }
+  &.btn{
+    &.btn-primary {
+      background-color: #fff !important;
+    }
+  }
+}
+.table-with-border {
+  //&:first-child{
+  //  border-top: @base-border;
+  //}
+  border-bottom: @base-border;
+  font-size: 16px;
+}
+.dataSelect {
+  width: 14%;
+  margin: 10px 0 10px 10px;
+}
+.labelDate{
+  margin-bottom: -5px;
+  margin-left: 25px;
+  //font-weight: bold;
+  font-family: @base-font-family;
+  padding-top: 17px;
+}
+H5 {
+  color: #6a2f80;
+  font-size: 150%;
+  font-family: @base-font-family;
+  padding-left: 20px;
+}
+textarea {
+  width: 50%;
+  height: 200px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+}
+.btn-purple, .btn-left{
+  width: 107px;
+  text-align: center;
+}
+.btn-right{
+  width: 130px;
+}
+.btn-purple {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  background-color: @base-button-bgcolor;
+  border-color: @base-button-bgcolor;
+  &:hover, &:active:hover{
+    background-color: @base-button-hover-bgcolor !important;
+    border-color: @base-button-hover-bgcolor;
+  }
+}
+.btn-left{
+  padding-left: 10px;
+  margin-left: 25px;
+
+}
+.table-header{
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: @base-border;
+}
+button{
+  margin-top: 5px;
+}
+
+.btn-show{
+  width: 210px;
+  margin-left: 10px;
+  background-color: @base-button-bgcolor;
+  border-color: @base-button-bgcolor;
+  &:hover, &:active:hover{
+    background-color: @base-button-hover-bgcolor !important;
+    border-color: @base-button-hover-bgcolor;
+  }
+}
+
+.row-ready {
+  color: #2196F3;
+  text-decoration: line-through;
+}
+
+.modalDialog {
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 99999;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  display: none;
+  pointer-events: none;
+}
