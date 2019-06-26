@@ -26,7 +26,7 @@ class InputText extends React.Component<InputTextProps, InputTextState>{
         this.setState({
             valueTextarea: event.target.value
         }, () => this.props.onChangeTextArea(this.state.valueTextarea));
-        console.log("onChangeTextArea", this.state.valueTextarea)
+        console.log("onChangeTextArea - InputText", this.state.valueTextarea)
     };
 
     render() {
@@ -35,7 +35,7 @@ class InputText extends React.Component<InputTextProps, InputTextState>{
                 <textarea placeholder={"Введите текст..."} value={this.state.valueTextarea} onChange={this.onChangeTextArea} />
             </Row>
             <Row>
-                <Button className="btn-purple btn-left" onClick={this.onClickClear} >Очистить</Button>
+                <Button className="btn-form btn-left" onClick={this.onClickClear} >Очистить</Button>
             </Row>
         </div>
     }

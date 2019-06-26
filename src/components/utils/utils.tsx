@@ -1,5 +1,5 @@
 
-export const dateformat = (date: string) => {
+export const dateformat = (date: Date) => {
     if (date){
         let year = new Date(date).getFullYear();
         let month = new Date(date).getMonth()+1;

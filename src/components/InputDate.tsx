@@ -17,12 +17,12 @@ class InputDate extends React.Component<InputDateProps, InputDateState>{
     };
 
     // componentDidMount(): void {
-    //     this.state.dateDiary = new Date().toLocaleString('en-US',  OPTIONS_DATA)
+    //     this.state.valueDate = new Date().toLocaleString('en-US',  OPTIONS_DATA)
     // }
 
     // изменение знаяения поля ввода даты
     onDateChange =(event:React.ChangeEvent<any>) => {
-        console.log("onDateChange", event.target.value.toLocaleString('en-US',  OPTIONS_DATA));
+        console.log("onDateChange в InputDate", event.target.value.toLocaleString('en-US',  OPTIONS_DATA));
 
         this.setState({
             dateDiary: event.target.value

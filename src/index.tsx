@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import "../less/index.less";
 import Diary from "./Diary";
+// import {Test} from "./Test";
 // import Router from "./router";
 
 // ReactDOM.render(<Router/>, document.getElementById('root'));

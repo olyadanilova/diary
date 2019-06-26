@@ -1,10 +1,6 @@
 import React from "react";
-// import 'semantic-ui-css/semantic.min.css';
-import InputText from "./InputText";
-import InputDate from "./InputDate";
+import {FormControl, InputGroup} from "react-bootstrap";
 import {TypeDiary} from "./Constants";
-
-
 
 export interface ModalEditProps {
     onChangeTextArea: (valueTextarea: string) => void;
@@ -13,21 +9,30 @@ export interface ModalEditProps {
 export interface ModalEditState {
     listDiary: TypeDiary[];
 }
-// Удалить!!!
+//Удалить!!!
 class ModalEdit extends React.Component<ModalEditProps, ModalEditState>{
     // state: ModalEditState = {
     //     text: "",
     // };
-    state: ModalEditState ={
-        listDiary: [],
-    };
-
 
     render() {
         return <div>
-            <InputDate onDateChange={this.props.onDateChange} />
-            <InputText onChangeTextArea={this.props.onChangeTextArea}/>
-            {/*<Button className="btn-purple" onClick={this.props.onClickSave} >Сохранить</Button>*/}
+            <InputGroup size="sm" >
+                <InputGroup.Prepend>
+                    <InputGroup.Text id="inputGroup-sizing-sm">Заметка</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
+            </InputGroup>
+            <br />
+            <InputGroup size="sm" >
+                <InputGroup.Prepend >
+                    <InputGroup.Text id="inputGroup-sizing-default">Дата</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                    aria-label="Default"
+                    aria-describedby="inputGroup-sizing-default"
+                />
+            </InputGroup>
             <br />
             {/*<InputGroup size="sm" >*/}
             {/*    <InputGroup.Prepend>*/}
@@ -39,3 +44,4 @@ class ModalEdit extends React.Component<ModalEditProps, ModalEditState>{
     }
 }
 export default ModalEdit;
+

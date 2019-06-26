@@ -1,3 +1,4 @@
+export const mesageSaveTestArea: string = "Не введен текст заметки!";
 
 export const OPTIONS_DATA = {
     year: 'numeric',
@@ -18,7 +19,7 @@ export interface TypeTableHeader {
 export interface TypeDiary {
     // number: number;
     note: string;
-    date: string;
+    date: Date|null;
     rowReady?: string;
     // choice: boolean;
 }

@@ -13,7 +13,7 @@ export interface TextEditorProps {
 export interface TextEditorState {
     listDiary: TypeDiary[];
 }
-
+//Удалить!!!
 class TextEditor extends React.Component<TextEditorProps, TextEditorState>{
 
     state: TextEditorState ={
@@ -25,12 +25,12 @@ class TextEditor extends React.Component<TextEditorProps, TextEditorState>{
         // let year = dateNow.getFullYear();
         // let month = dateNow.getMonth()+1;
         // let day = dateNow.getDate();
-        // let wer = dateformat(this.state.dateDiary);
+        // let wer = dateformat(this.state.valueDate);
         // console.log("wer", wer);
         return <div>
             <InputDate onDateChange={this.props.onDateChange} />
             <InputText onChangeTextArea={this.props.onChangeTextArea}/>
-            <Button className="btn-purple" onClick={this.props.onClickSave} >Сохранить</Button>
+            <Button className="btn-form" onClick={this.props.onClickSave} >Сохранить</Button>
         </div>
     }
 }

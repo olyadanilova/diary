@@ -1,9 +1,11 @@
 @import "variable";
+@import "~react-datepicker/dist/react-datepicker.css";
 .btn-primary {
+  border: @base-border-button;
   &:focus, &.focus {
     box-shadow: none !important;
     outline: none;
-    border-color: #fff !important;
+    //border-color: #fff !important;
     background-color: @base-button-bgcolor !important;
   }
   &:active:focus{
@@ -47,39 +49,59 @@
 }
 H5 {
   color: #6a2f80;
-  font-size: 150%;
-  font-family: @base-font-family;
+  font-size: @base-font-size-caption;
+  font-family: @base-font-family-caption;
   padding-left: 20px;
 }
+.table-header{
+  font-family: @base-font-family-caption;
+  //font-size: @base-font-size;
+}
 textarea {
-  width: 50%;
-  height: 200px;
-  margin-left: 25px;
-  margin-bottom: 10px;
+  width: 550px;
+  height: 100px;
+  border: 1px solid #ced4da;
+  padding-left: 5px;
+  //margin-bottom: 10px;
 }
-.btn-purple, .btn-left{
-  width: 107px;
-  text-align: center;
+.react-datepicker-wrapper{
+  width: 100px;
 }
+input{
+  width: 550px;
+  height: 31px;
+  border: 1px solid #ced4da;
+  padding-left: 5px;
+}
+.input-group{
+  padding-left: 10px;
+}
+//.btn-form, .btn-left{
+  //width: 107px;
+  //text-align: center;
+//}
 .btn-right{
   width: 130px;
 }
-.btn-purple {
+.btn-form {
   margin-top: 10px;
   margin-left: 10px;
   margin-bottom: 10px;
   background-color: @base-button-bgcolor;
-  border-color: @base-button-bgcolor;
+  border: @base-border-button;
+  font-size: @base-font-size-button;
+  font-family: @base-font-family-button;
+  color: @base-button-color;
   &:hover, &:active:hover{
     background-color: @base-button-hover-bgcolor !important;
     border-color: @base-button-hover-bgcolor;
   }
 }
-.btn-left{
-  padding-left: 10px;
-  margin-left: 25px;
-
-}
+// найти класс и удалить
+// .btn-left{
+//  padding-left: 10px;
+//  margin-left: 25px;
+//}
 .table-header{
   font-size: 18px;
   font-weight: bold;
@@ -88,13 +110,18 @@ textarea {
 }
 button{
   margin-top: 5px;
+  &.close{
+    color: red;
+  }
 }
 
 .btn-show{
-  width: 210px;
+  width: 202px;
   margin-left: 10px;
   background-color: @base-button-bgcolor;
-  border-color: @base-button-bgcolor;
+  border: @base-border-button;
+  font-family: @base-font-family-button;
+  font-size: @base-font-size-button;
   &:hover, &:active:hover{
     background-color: @base-button-hover-bgcolor !important;
     border-color: @base-button-hover-bgcolor;
@@ -121,3 +148,63 @@ button{
   display: none;
   pointer-events: none;
 }
+.modal-title{
+  font-size: 14pt;
+
+}
+.modal-header{
+  padding: 9px 15px;
+  .close{
+    outline: none;
+  }
+}
+.modal-footer{
+  height: 50px;
+  button{
+    width: auto;
+  }
+}
+.modal-body {
+  input, textarea {
+    width: 364px;
+  }
+}
+.modal-body, .input-group{
+     padding-bottom: 0;
+  .input-group-prepend{
+    width: 93px;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+  }
+  .input-group-text{
+    padding-left: 13px;
+    border: none;
+    color:@base-button-color;
+    font-family: @base-font-family-button;
+    font-size: 11pt !important;
+
+  }
+  .form-control:focus{
+    outline: none;
+    box-shadow: none;
+    border-color: @base-input-focus-border-color;
+  }
+}
+.ui.label.label{
+  font-weight: bold;
+}
+input[type=date]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  display: none;
+}
+.alert {
+  color: white;
+}
+.input-group-text {
+  p{
+    color: #ff6f69;
+    padding-left: 5px;
+  }
+};

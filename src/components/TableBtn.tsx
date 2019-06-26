@@ -6,9 +6,9 @@ class TableBtn extends React.Component<any>{
     render() {
         return <div>
             <Row>
-                <Button className="btn-purple btn-left" >Удалить</Button>
-                <Button className="btn-purple" >Выполнено</Button>
-                <Button className="btn-purple btn-right" >Редактировать</Button>
+                <Button className="btn-form btn-left" >Удалить</Button>
+                <Button className="btn-form" >Выполнено</Button>
+                <Button className="btn-form btn-right" >Редактировать</Button>
             </Row>
         </div>
     }
