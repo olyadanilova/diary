@@ -2,57 +2,112 @@ import React from "react";
 import TableHeader from "./TableHeader";
 import {TypeDiary} from "./Constants";
 import TableRow from "./TableRow";
-// import ModalWindow from "./ModalWindow";
+import ModalWindow from "./ModalWindow";
 
 export interface TableTextProps {
     listDiary: TypeDiary[];
     onClickDeleleRow: (row: TypeDiary)=> void;
     onClickReady: (row: TypeDiary)=> void;
-    // onClickEdit: (row: TypeDiary) => void;
+    // onClickEdit: (row: TypeDiary)=> void;
+    // onCloseModalWindow: ()=> void;
     showing: boolean;
-    valueTextarea: string;
-    valueDate: Date|null;
-    // onChangeTextArea: (valueTextarea: string) => void;
-    // onChangeDate: (dateDiary: string) => void;
-    // onClickSave: (event: React.ChangeEvent<any>) => void;
+    // valueTextarea: string;
+    // valueDate: Date;
+    onChangeTextEdit:(valueDateEdit: Date|string) => void;
+    // isOpenModalTextEditor: boolean;
 }
 export interface TableTextState{
     // rowReady: string;
-    isOpen: boolean;
+    isOpenModalTextEditor: boolean;
+    valueTextarea: string;
+    valueDate: Date;
 }
 
-class Table extends React.Component<TableTextProps, TableTextState>{
+class Table extends React.Component<TableTextProps>{
     state: TableTextState = {
         // rowReady: ""
-        isOpen: false,
+        isOpenModalTextEditor: false,
+        valueTextarea: "",
+        valueDate: new Date
     };
 
-    onClickEdit = (row: TypeDiary) => {
-        if (this.state.isOpen) {
-            this.setState({
-                isOpen: false
-            })
-        } else{
-            this.setState({
-                isOpen: true
-            })
-        }
-    };
-    onClose=()=>{
+    onCloseModalWindow=()=>{
+        console.log("onCloseModalWindow", this.state.isOpenModalTextEditor)
         this.setState({
-            isOpen: false
+            isOpenModalTextEditor: false
         })
     };
+    // onClickEdit = (row: TypeDiary) => {
+    //     console.log("ROW", row)
+    //
+    //     // if (this.state.isOpenModalTextEditor) {
+    //     //     this.setState({
+    //     //         isOpenModalTextEditor: false
+    //     //     })
+    //     // } else{
+    //     //     this.setState({
+    //     //         isOpenModalTextEditor: true
+    //     //     })
+    //     // }
+    // };
+    onClickEdit = (row: TypeDiary) => {
+        this.setState({
+            isOpenModalTextEditor: true,
+            valueTextarea: row.note,
+            valueDate: row.date
+        });
+        console.log("ROW", row);
+
+    };
+    onChangeTextEditModal = (val: string|Date) => {
+        console.log("onChangeTextEditModal", val);
+        typeof val == "string"?
+            this.setState({
+                valueTextarea: val,
+            }):
+            this.setState({
+                valueDate: val,
+            })
+    };
+    onClickSaveModal = () => (
+        console.log("listDiary/", this.props.listDiary),
+        console.log("valueDate", this.state.valueDate),
+        console.log("valueTextarea", this.state.valueTextarea)
+
+        // this.props.valueTextarea.length>0?
+        //     this.saveList(this.props.valueTextarea, this.props.valueDate):
+        //     alert(mesageSaveTestArea)
+        // this.state.valueTextarea.length>0?
+        // this.saveList(this.state.valueTextarea, this.state.valueDate):
+        // alert(mesageSaveTestArea)
+        // this.setState({
+        //     listDiaryUbdate: this.state.listDiary.filter((el) => el!=row ),
+        // }, () =>{
+        //     this.setState({
+        //         listDiary:[
+        //             ...this.state.listDiaryUbdate,
+        //             {
+        //                 note: row.note,
+        //                 rowReady: rowReadyCurrent,
+        //                 date: row.date
+        //             }
+        //         ]}, () =>{
+        //         localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+        //         // console.log("onClickReady_form", localStorage.getItem('form'))
+        //     });
+        // })
+    );
+
     render() {
         return <div style={{ display: (this.props.showing ? 'block' : 'none') }}>
-            {/*<ModalWindow isOpen={this.state.isOpen}*/}
-            {/*             onClose={this.onClose}*/}
-            {/*             valueTextarea={this.props.valueTextarea}*/}
-            {/*             valueDate={this.props.valueDate}*/}
-            {/*             // onChangeDate={this.props. }*/}
-            {/*             // onChangeTextArea={this.props.onChangeTextArea}*/}
-            {/*             // onClickSave={this.props.onClickSave}*/}
-            {/*/>*/}
+            <ModalWindow isOpenModalTextEditor={this.state.isOpenModalTextEditor}
+                         onCloseModalWindow={this.onCloseModalWindow}
+                         valueTextarea={this.state.valueTextarea}
+                         valueDate={this.state.valueDate}
+                         listDiary={this.props.listDiary}
+                         onChangeTextEditModal={this.onChangeTextEditModal}
+                         onClickSaveModal={this.onClickSaveModal}
+            />
             <TableHeader/>
             <TableRow onClickReady={this.props.onClickReady}
                       onClickDeleleRow={this.props.onClickDeleleRow}

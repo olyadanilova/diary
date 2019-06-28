@@ -3,23 +3,23 @@ import {InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker"
 
 export interface TestEditProps {
-    onChangeTextArea: (valueTextarea: string) => void;
-    onChangeDate: (dateDiary: Date|null) => void;
+    // onChangeTextArea: (valueTextarea: string) => void;
+    // onChangeDate: (dateDiary: Date|null) => void;
     valueTextarea: string;
-    valueDate: Date|null;
-    // onChange:(valueDateEdit: string, valueTextarea: string) => void;
+    valueDate: Date;
+    onChangeTextEdit:(valueDateEdit: Date|string) => void;
 }
 
 class TestEdit extends React.Component<TestEditProps>{
     // изменение значения заметки и сохранение его в свойство верхнего компонена valueTextarea
     onChangeTextAreaEdit = (event:React.ChangeEvent<any>) => {
         // console.log("event.target/text", event.target.value);
-        this.props.onChangeTextArea(event.target.value);
+        this.props.onChangeTextEdit(event.target.value);
     };
     // изменение знаяения поля даты и сохранение его в свойство верхнего компонена valueDate
     onChangeDateEdit = (date: Date) => {
         // console.log("event.target/date", date);
-        this.props.onChangeDate(date);
+        this.props.onChangeTextEdit(date);
     };
     // onClickSave = () => {
     //     this.props.onChangeTextArea(this.state.valueTextarea);

@@ -5,16 +5,18 @@ import Table from "./components/Table";
 import {TypeDiary, mesageSaveTestArea} from "./components/Constants";
 import {Button} from "react-bootstrap";
 import TestEdit from "./components/TestEdit";
+// import {dateformat} from "./components/utils/utils";
 
 export interface DiaryProps {
 }
 
 export interface DiaryState {
-    valueDate: Date|null;
+    valueDate: Date;
     valueTextarea: string;
     listDiary: TypeDiary[];
     listDiaryUbdate: TypeDiary[];
     showing: boolean;
+    isOpenModalTextEditor: boolean
 }
 export class Diary extends React.Component<DiaryProps, DiaryState>{
 
@@ -24,6 +26,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         listDiary: [],
         listDiaryUbdate:[],
         showing: false,
+        isOpenModalTextEditor: false,
     };
 
     componentDidMount(): void{
@@ -42,7 +45,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             this.saveList(this.state.valueTextarea, this.state.valueDate):
             alert(mesageSaveTestArea)
     };
-    saveList = (text: string, date: Date|null) =>{
+    saveList = (text: string, date: Date) =>{
         // console.log("date и textArea", date + "   " + text);
         this.setState({
             listDiary: [
@@ -102,25 +105,29 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             })
         }
     };
-
-    // onChange = (valueDateEdit: Date|null, valueTextarea: string) =>{
+// Изменение состояния valueTextarea или valueDate после изменения значения полей ввода Заметка или Дата
+    onChangeTextEdit = (valueTextEdit: Date|string) =>{
+        console.log("valueTextEdit", valueTextEdit);
+        typeof valueTextEdit == "string"?
+        this.setState({
+            valueTextarea: valueTextEdit,
+        }):
+            this.setState({
+                valueDate: valueTextEdit,
+            })
+    };
+    // onChangeTextArea = (text: string) => {
+    //     // console.log("onChangeTextArea", text);
     //     this.setState({
-    //         valueDate: valueDateEdit,
-    //         valueTextarea: valueTextarea,
+    //         valueTextarea: text
     //     });
     // };
-    onChangeTextArea = (text: string) => {
-        // console.log("onChangeTextArea", text);
-        this.setState({
-            valueTextarea: text
-        });
-    };
-    onChangeDate = (date: Date|null) => {
-        // console.log("onChangeDate", date);
-        this.setState({
-            valueDate: date
-        });
-    };
+    // onChangeDate = (date: Date|null) => {
+    //     // console.log("onChangeDate", date);
+    //     this.setState({
+    //         valueDate: date
+    //     });
+    // };
     // очистка поля ввода textarea и сброс даты на текущую
     onClickClear = () => {
         this.setState({
@@ -129,17 +136,47 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         })
     };
     // onClickEdit = (row: TypeDiary) => {
-    //     this.setState({})
+    //     this.setState({
+    //         isOpenModalTextEditor: true,
+    //         valueTextarea: row.note,
+    //         valueDate: row.date
+    //     });
+    //     console.log("ROW", row);
+    //
+    // };
+    // onOpenModalTextEditor = (open: boolean) => {
+    //     if (open) {
+    //         this.setState({
+    //             isOpenModalTextEditor: false
+    //         })
+    //     } else{
+    //         this.setState({
+    //             isOpenModalTextEditor: true
+    //         })
+    //     }
+    // };
+
+    // onClickEdit = (row: TypeDiary) => {
     //     console.log("ROW", row)
+    //
+    //     // if (this.state.isOpenModalTextEditor) {
+    //     //     this.setState({
+    //     //         isOpenModalTextEditor: false
+    //     //     })
+    //     // } else{
+    //     //     this.setState({
+    //     //         isOpenModalTextEditor: true
+    //     //     })
+    //     // }
     // };
 
     render(){
         // let showBtnModalWindow: boolean = this.state.showBtnTextEdit;
             return <div>
-                {/*<ModalEdit isOpen={this.state.isOpen}/>*/}
+                {/*<ModalEdit isOpenModalTextEditor={this.state.isOpenModalTextEditor}/>*/}
                 <Title/>
-                <TestEdit onChangeDate={this.onChangeDate}
-                          onChangeTextArea={this.onChangeTextArea}
+                <TestEdit onChangeTextEdit={this.onChangeTextEdit}
+                          // onChangeTextArea={this.onChangeTextArea}
                           valueDate={this.state.valueDate}
                           valueTextarea={this.state.valueTextarea}
                           // onChange={this.onChange}
@@ -153,12 +190,12 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                        listDiary={this.state.listDiary}
                        onClickDeleleRow={this.onClickDeleleRow}
                        onClickReady={this.onClickReady}
+                       onChangeTextEdit={this.onChangeTextEdit}
                        // onClickEdit={this.onClickEdit}
-                       valueTextarea={this.state.valueTextarea}
-                       valueDate={this.state.valueDate}
-                       // onDateChange={this.onDateChange }
-                       // onChangeTextArea={this.onChangeTextArea}
-                       // onClickSave={this.onClickSave}
+                       // valueTextarea={this.state.valueTextarea}
+                       // valueDate={this.state.valueDate}
+                       // onCloseModalTextEditor={this.onCloseModalTextEditor}
+                       // isOpenModalTextEditor={this.state.isOpenModalTextEditor}
                 />
             </div>
     }

@@ -19,7 +19,7 @@ export interface TypeTableHeader {
 export interface TypeDiary {
     // number: number;
     note: string;
-    date: Date|null;
+    date: Date;
     rowReady?: string;
     // choice: boolean;
 }
