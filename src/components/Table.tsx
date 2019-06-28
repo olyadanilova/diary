@@ -69,11 +69,20 @@ class Table extends React.Component<TableTextProps>{
                 valueDate: val,
             })
     };
-    onClickSaveModal = () => (
-        console.log("listDiary/", this.props.listDiary),
-        console.log("valueDate", this.state.valueDate),
-        console.log("valueTextarea", this.state.valueTextarea)
-
+    onClickSaveModal = () => {
+        console.log("listDiary", this.props.listDiary);
+        let listDiary: TypeDiary[] = this.props.listDiary;
+        let text: string = this.state.valueTextarea;
+        let date: Date = this.state.valueDate;
+        listDiary.forEach((element)=>{
+            if (element.note==text && element.date==date)
+                {console.log("element", element)}
+            }
+        );
+    }
+    //     console.log("listDiary/", this.props.listDiary),
+    // console.log("valueDate", this.state.valueDate),
+    // console.log("valueTextarea", this.state.valueTextarea)
         // this.props.valueTextarea.length>0?
         //     this.saveList(this.props.valueTextarea, this.props.valueDate):
         //     alert(mesageSaveTestArea)
@@ -96,7 +105,7 @@ class Table extends React.Component<TableTextProps>{
         //         // console.log("onClickReady_form", localStorage.getItem('form'))
         //     });
         // })
-    );
+    ;
 
     render() {
         return <div style={{ display: (this.props.showing ? 'block' : 'none') }}>
