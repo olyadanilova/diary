@@ -5,7 +5,6 @@ import Table from "./components/Table";
 import {TypeDiary, mesageSaveTestArea} from "./components/Constants";
 import {Button} from "react-bootstrap";
 import TestEdit from "./components/TestEdit";
-// import {dateformat} from "./components/utils/utils";
 
 export interface DiaryProps {
 }
@@ -16,7 +15,6 @@ export interface DiaryState {
     listDiary: TypeDiary[];
     listDiaryUbdate: TypeDiary[];
     showing: boolean;
-    isOpenModalTextEditor: boolean
 }
 export class Diary extends React.Component<DiaryProps, DiaryState>{
 
@@ -26,16 +24,17 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         listDiary: [],
         listDiaryUbdate:[],
         showing: false,
-        isOpenModalTextEditor: false,
     };
 
     componentDidMount(): void{
         //  ('form')! - добавлена проверка, так как localStorage.getItem() может возвращать строку или ноль.
         // JSON.parse () требует строку, поэтому нужно проверить результат localStorage.getItem ()
         // this.state.listDiary = JSON.parse(localStorage.getItem('form')!);
-        this.setState({
-            listDiary: JSON.parse(localStorage.getItem('form')!)
-        })
+        if(localStorage.getItem('form')){
+            this.setState({
+                listDiary: JSON.parse(localStorage.getItem('form')!)
+            })
+        }
         // this.state.valueDate = new Date().toLocaleString("ru", OPTIONS_DATA);
     }
 
@@ -56,34 +55,38 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                 }
             ]}, () =>{
             localStorage.setItem('form', JSON.stringify(this.state.listDiary));
-            // console.log("onClickSave_form", localStorage.getItem('form'))
         });
     };
     // Изменение стиля строки - "Выполнено"
     onClickReady =(row: TypeDiary) => {
         // console.log("onClickReady", row);
-        let rowReadyCurrent:string;
+        let rowStyle:string;
+        let newList:TypeDiary[]=this.state.listDiary;
+        let rowNewStyle:TypeDiary;
+        let indexRow:number;
         if (row.rowReady){
-            rowReadyCurrent = ""
+            rowStyle = ""
         } else{
-            rowReadyCurrent= "row-ready"
+            rowStyle= "row-ready"
         }
+        indexRow=this.state.listDiary.indexOf(row);
+        rowNewStyle = {note: row.note, date: row.date, rowReady: rowStyle};
+        newList.splice(indexRow, 1, rowNewStyle);
+        // console.log("newList", newList);
         this.setState({
-            listDiaryUbdate: this.state.listDiary.filter((el) => el!=row ),
-        }, () =>{
-            this.setState({
-                listDiary:[
-                    ...this.state.listDiaryUbdate,
-                    {
-                        note: row.note,
-                        rowReady: rowReadyCurrent,
-                        date: row.date
-                    }
-                ]}, () =>{
-                localStorage.setItem('form', JSON.stringify(this.state.listDiary));
-                // console.log("onClickReady_form", localStorage.getItem('form'))
-            });
-        })
+            listDiary: newList
+        }, () => localStorage.setItem('form', JSON.stringify(this.state.listDiary)))
+        //     this.setState({
+        //         listDiary:[
+        //             ...this.state.listDiaryUbdate,
+        //             {
+        //                 note: row.note,
+        //                 rowReady: rowStyle,
+        //                 date: row.date
+        //             }
+        //         ]}, () =>{
+        //         localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+        //     });
     };
     onClickDeleleRow = (row: TypeDiary) => {
 
@@ -91,7 +94,6 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             listDiary: this.state.listDiary.filter((el) => el!=row)
         },()=>{
             localStorage.setItem('form', JSON.stringify(this.state.listDiary));
-            // console.log("onCheckChois_form", this.state.listDiary.toLocaleString());
         });
     };
     onClickShowTable = () => {
@@ -107,7 +109,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
     };
 // Изменение состояния valueTextarea или valueDate после изменения значения полей ввода Заметка или Дата
     onChangeTextEdit = (valueTextEdit: Date|string) =>{
-        console.log("valueTextEdit", valueTextEdit);
+        // console.log("valueTextEdit", valueTextEdit);
         typeof valueTextEdit == "string"?
         this.setState({
             valueTextarea: valueTextEdit,
@@ -116,18 +118,6 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                 valueDate: valueTextEdit,
             })
     };
-    // onChangeTextArea = (text: string) => {
-    //     // console.log("onChangeTextArea", text);
-    //     this.setState({
-    //         valueTextarea: text
-    //     });
-    // };
-    // onChangeDate = (date: Date|null) => {
-    //     // console.log("onChangeDate", date);
-    //     this.setState({
-    //         valueDate: date
-    //     });
-    // };
     // очистка поля ввода textarea и сброс даты на текущую
     onClickClear = () => {
         this.setState({
@@ -135,52 +125,13 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             valueDate: new Date,
         })
     };
-    // onClickEdit = (row: TypeDiary) => {
-    //     this.setState({
-    //         isOpenModalTextEditor: true,
-    //         valueTextarea: row.note,
-    //         valueDate: row.date
-    //     });
-    //     console.log("ROW", row);
-    //
-    // };
-    // onOpenModalTextEditor = (open: boolean) => {
-    //     if (open) {
-    //         this.setState({
-    //             isOpenModalTextEditor: false
-    //         })
-    //     } else{
-    //         this.setState({
-    //             isOpenModalTextEditor: true
-    //         })
-    //     }
-    // };
-
-    // onClickEdit = (row: TypeDiary) => {
-    //     console.log("ROW", row)
-    //
-    //     // if (this.state.isOpenModalTextEditor) {
-    //     //     this.setState({
-    //     //         isOpenModalTextEditor: false
-    //     //     })
-    //     // } else{
-    //     //     this.setState({
-    //     //         isOpenModalTextEditor: true
-    //     //     })
-    //     // }
-    // };
 
     render(){
-        // let showBtnModalWindow: boolean = this.state.showBtnTextEdit;
             return <div>
-                {/*<ModalEdit isOpenModalTextEditor={this.state.isOpenModalTextEditor}/>*/}
                 <Title/>
                 <TestEdit onChangeTextEdit={this.onChangeTextEdit}
-                          // onChangeTextArea={this.onChangeTextArea}
                           valueDate={this.state.valueDate}
                           valueTextarea={this.state.valueTextarea}
-                          // onChange={this.onChange}
-                          // showBtnTextEdit={true}
                 />
                 <Button className="btn-form" onClick={this.onClickClear} >Очистить</Button>
                 <Button className="btn-form" onClick={this.onClickSave} >Сохранить</Button>
@@ -191,11 +142,6 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                        onClickDeleleRow={this.onClickDeleleRow}
                        onClickReady={this.onClickReady}
                        onChangeTextEdit={this.onChangeTextEdit}
-                       // onClickEdit={this.onClickEdit}
-                       // valueTextarea={this.state.valueTextarea}
-                       // valueDate={this.state.valueDate}
-                       // onCloseModalTextEditor={this.onCloseModalTextEditor}
-                       // isOpenModalTextEditor={this.state.isOpenModalTextEditor}
                 />
             </div>
     }

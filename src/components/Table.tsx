@@ -8,59 +8,47 @@ export interface TableTextProps {
     listDiary: TypeDiary[];
     onClickDeleleRow: (row: TypeDiary)=> void;
     onClickReady: (row: TypeDiary)=> void;
-    // onClickEdit: (row: TypeDiary)=> void;
-    // onCloseModalWindow: ()=> void;
     showing: boolean;
-    // valueTextarea: string;
-    // valueDate: Date;
     onChangeTextEdit:(valueDateEdit: Date|string) => void;
-    // isOpenModalTextEditor: boolean;
 }
 export interface TableTextState{
-    // rowReady: string;
     isOpenModalTextEditor: boolean;
     valueTextarea: string;
     valueDate: Date;
+    indexRowEdit: number;
+    rowReady: string
 }
 
-class Table extends React.Component<TableTextProps>{
+class Table extends React.Component<TableTextProps, TableTextState>{
     state: TableTextState = {
-        // rowReady: ""
         isOpenModalTextEditor: false,
         valueTextarea: "",
-        valueDate: new Date
+        valueDate: new Date,
+        indexRowEdit: 0,
+        rowReady: ""
     };
 
     onCloseModalWindow=()=>{
-        console.log("onCloseModalWindow", this.state.isOpenModalTextEditor)
         this.setState({
             isOpenModalTextEditor: false
         })
     };
-    // onClickEdit = (row: TypeDiary) => {
-    //     console.log("ROW", row)
-    //
-    //     // if (this.state.isOpenModalTextEditor) {
-    //     //     this.setState({
-    //     //         isOpenModalTextEditor: false
-    //     //     })
-    //     // } else{
-    //     //     this.setState({
-    //     //         isOpenModalTextEditor: true
-    //     //     })
-    //     // }
-    // };
+
     onClickEdit = (row: TypeDiary) => {
+        let indexRow: number = this.props.listDiary.indexOf(row);
+        let rowReadyCur: string = row.rowReady?row.rowReady:"";
+        console.log("rowReadyCur", rowReadyCur);
         this.setState({
             isOpenModalTextEditor: true,
             valueTextarea: row.note,
-            valueDate: row.date
-        });
-        console.log("ROW", row);
+            valueDate: row.date,
+            indexRowEdit: indexRow,
+            rowReady: rowReadyCur
+        }, ()=> console.log("ROW", row, this.state.indexRowEdit));
 
     };
     onChangeTextEditModal = (val: string|Date) => {
-        console.log("onChangeTextEditModal", val);
+        // console.log("onChangeTextEditModal", val);
         typeof val == "string"?
             this.setState({
                 valueTextarea: val,
@@ -69,43 +57,23 @@ class Table extends React.Component<TableTextProps>{
                 valueDate: val,
             })
     };
+    onUbdateListDiary = (listDiary: TypeDiary[], rowNew: TypeDiary) => {
+        listDiary.splice(this.state.indexRowEdit, 1, rowNew);
+        localStorage.setItem('form', JSON.stringify(listDiary));
+    };
     onClickSaveModal = () => {
-        console.log("listDiary", this.props.listDiary);
-        let listDiary: TypeDiary[] = this.props.listDiary;
-        let text: string = this.state.valueTextarea;
-        let date: Date = this.state.valueDate;
-        listDiary.forEach((element)=>{
-            if (element.note==text && element.date==date)
-                {console.log("element", element)}
-            }
-        );
-    }
-    //     console.log("listDiary/", this.props.listDiary),
-    // console.log("valueDate", this.state.valueDate),
-    // console.log("valueTextarea", this.state.valueTextarea)
-        // this.props.valueTextarea.length>0?
-        //     this.saveList(this.props.valueTextarea, this.props.valueDate):
-        //     alert(mesageSaveTestArea)
-        // this.state.valueTextarea.length>0?
-        // this.saveList(this.state.valueTextarea, this.state.valueDate):
-        // alert(mesageSaveTestArea)
-        // this.setState({
-        //     listDiaryUbdate: this.state.listDiary.filter((el) => el!=row ),
-        // }, () =>{
-        //     this.setState({
-        //         listDiary:[
-        //             ...this.state.listDiaryUbdate,
-        //             {
-        //                 note: row.note,
-        //                 rowReady: rowReadyCurrent,
-        //                 date: row.date
-        //             }
-        //         ]}, () =>{
-        //         localStorage.setItem('form', JSON.stringify(this.state.listDiary));
-        //         // console.log("onClickReady_form", localStorage.getItem('form'))
-        //     });
-        // })
-    ;
+        let textNew: string = this.state.valueTextarea;
+        let dateNew: Date = this.state.valueDate;
+        let rowReadyNew: string = this.state.rowReady;
+        let rowNew: TypeDiary = {note: textNew, date: dateNew, rowReady:rowReadyNew};
+        let rowCur: TypeDiary = this.props.listDiary[this.state.indexRowEdit];
+        if (rowCur.note==textNew && rowCur.date==dateNew){
+            this.onCloseModalWindow()
+        }
+        this.onUbdateListDiary(this.props.listDiary, rowNew);
+        // console.log("NewList - обновленный listDiary", this.props.listDiary);
+        this.onCloseModalWindow()
+    };
 
     render() {
         return <div style={{ display: (this.props.showing ? 'block' : 'none') }}>

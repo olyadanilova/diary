@@ -4,7 +4,7 @@ class Title extends React.Component<any>{
 
     render() {
         return <div>
-            <h5>Name</h5>
+            <h5>Diary</h5>
         </div>
     }
 }

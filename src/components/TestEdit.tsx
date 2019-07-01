@@ -3,8 +3,6 @@ import {InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker"
 
 export interface TestEditProps {
-    // onChangeTextArea: (valueTextarea: string) => void;
-    // onChangeDate: (dateDiary: Date|null) => void;
     valueTextarea: string;
     valueDate: Date;
     onChangeTextEdit:(valueDateEdit: Date|string) => void;
@@ -21,14 +19,9 @@ class TestEdit extends React.Component<TestEditProps>{
         // console.log("event.target/date", date);
         this.props.onChangeTextEdit(date);
     };
-    // onClickSave = () => {
-    //     this.props.onChangeTextArea(this.state.valueTextarea);
-    //     this.props.onChangeDate(this.state.valueDateEdit);
-    // };
 
 
     render() {
-        // let showBtnModalWindow: boolean = this.props.showBtnTextEdit;
         return <div>
             <InputGroup size="sm" >
                 <InputGroup.Prepend>

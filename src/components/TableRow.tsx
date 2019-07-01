@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Col, Row} from "react-bootstrap";
 import {TypeDiary} from "./Constants";
-import {dateformat} from "./utils/utils";
+import {dateFormatter} from "./utils/utils";
 
 export interface TableProps {
     listDiary: TypeDiary[];
@@ -23,7 +23,7 @@ class TableRow extends React.Component<TableProps, any>{
                 <Row className={styleRowReady} key={index} >
                     <Col md={8} xs={8} className="text-center"> {el.note} </Col>
                     <Col md={2} xs={2} className="text-center">
-                        {(el.date)? dateformat(el.date):""}
+                        {(el.date)? dateFormatter(el.date):""}
                     </Col>
                     <Col className="text-center">
                         <Button className="btn-table" key={index} title={"Удалить"}

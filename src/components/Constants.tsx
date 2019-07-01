@@ -17,11 +17,9 @@ export interface TypeTableHeader {
 }
 
 export interface TypeDiary {
-    // number: number;
     note: string;
     date: Date;
     rowReady?: string;
-    // choice: boolean;
 }
 
 export const tableHeader: TypeTableHeader[] =  [
@@ -29,6 +27,5 @@ export const tableHeader: TypeTableHeader[] =  [
     {name: "Заметка", mdCol: "col-md-8 col-xs-8"},
     {name: "Дата", mdCol: "col-md-2 col-xs-2",
         formatter: (value => value? new Date(value).toLocaleString('ru', OPTIONS_DATA): "")},
-    {name: "Выбор", mdCol: "col-md-2 col-xs-2"},
-    // {name: "Редактирование", mdCol: "col-md-2 col-xs-2"}
+    {name: "Выбор", mdCol: "col-md-2 col-xs-2"}
 ];
