@@ -14,9 +14,17 @@ export interface TableProps {
 class TableRow extends React.Component<TableProps, any>{
 
     render() {
-        let arrayList = this.props.listDiary;
+        let arrayList: TypeDiary[] = this.props.listDiary;
         // console.log("arrayList", arrayList);
-        let tableDiary = arrayList.map((el, index)=> {
+        let tableDiary:any;
+        let arrayListNew: TypeDiary[];
+        if (arrayList){
+            arrayListNew = arrayList.sort(function (a:TypeDiary,b: TypeDiary):number {
+                let dateA:Date = new Date(a.date);
+                let dateB:Date = new Date(b.date);
+                return  +dateA-(+dateB);
+            });
+        tableDiary = arrayListNew.map((el, index)=> {
             // console.log("el", el);
             let styleRowReady = "table-with-border " + el.rowReady;
             return <div key={index}>
@@ -47,7 +55,8 @@ class TableRow extends React.Component<TableProps, any>{
                     </Col>
                 </Row>
             </div>
-        });
+        })}
+        else null;
         return <div>{tableDiary}</div>
     }
 }

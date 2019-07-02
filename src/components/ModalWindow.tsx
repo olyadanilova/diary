@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Modal} from "react-bootstrap";
 import ModalEdit from "./ModalEdit";
 import { TypeDiary} from "./Constants";
+import {OnChangeTextHandler} from "../Diary";
 
 export interface ModalEditProps {
     isOpenModalTextEditor: boolean;
@@ -9,7 +10,7 @@ export interface ModalEditProps {
     valueTextarea: string;
     valueDate: Date;
     listDiary: TypeDiary[]
-    onChangeTextEditModal:(valueDateEdit: Date|string) => void;
+    onChangeTextEditModal:OnChangeTextHandler;
     onClickSaveModal: ()=> void;
 }
 

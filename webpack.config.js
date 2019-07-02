@@ -8,7 +8,10 @@ module.exports = {
         publicPath: "/dist"
     },
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".jsx"]
+        extensions: [".ts", ".tsx", ".js", ".jsx", ".less"],
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        }
     },
     devServer: {
         contentBase: path.join(__dirname, ''),

@@ -1,24 +1,25 @@
 import React from "react";
 import {InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker"
+import {OnChangeTextHandler} from "../Diary";
 // import {OPTIONS_DATA} from "./Constants";
 
 export interface ModalEditProps {
     valueTextareaModal: string;
     valueDateModal: Date;
-    onChange:(valueDateEdit: Date|string) => void;
+    onChange:OnChangeTextHandler;
 }
 class ModalEdit extends React.Component<ModalEditProps>{
 
     // изменение значения заметки и сохранение его в свойство верхнего компонена valueTextarea
     onChangeText = (event:React.ChangeEvent<any>) => {
         console.log("event.target/text", event.target.value);
-        this.props.onChange(event.target.value);
+        this.props.onChange("valueTextarea")(event.target.value);
     };
     // изменение знаяения поля даты и сохранение его в свойство верхнего компонена valueDate
     onChangeDate = (date: Date) => {
         console.log("event.target/date", date);
-        this.props.onChange(date);
+        this.props.onChange("valueDate")(date);
     };
 
     render() {

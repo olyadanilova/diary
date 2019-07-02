@@ -1,23 +1,24 @@
 import React from "react";
 import {InputGroup} from "react-bootstrap";
 import DatePicker from "react-datepicker"
+import {OnChangeTextHandler} from "../Diary";
 
-export interface TestEditProps {
+export interface TextEditProps {
     valueTextarea: string;
     valueDate: Date;
-    onChangeTextEdit:(valueDateEdit: Date|string) => void;
+    onChangeTextEdit: OnChangeTextHandler;
 }
 
-class TestEdit extends React.Component<TestEditProps>{
+class TextEdit extends React.Component<TextEditProps>{
     // изменение значения заметки и сохранение его в свойство верхнего компонена valueTextarea
     onChangeTextAreaEdit = (event:React.ChangeEvent<any>) => {
         // console.log("event.target/text", event.target.value);
-        this.props.onChangeTextEdit(event.target.value);
+        this.props.onChangeTextEdit("valueTextarea")(event.target.value);
     };
     // изменение знаяения поля даты и сохранение его в свойство верхнего компонена valueDate
     onChangeDateEdit = (date: Date) => {
         // console.log("event.target/date", date);
-        this.props.onChangeTextEdit(date);
+        this.props.onChangeTextEdit("valueDate")(date);
     };
 
 
@@ -55,5 +56,5 @@ class TestEdit extends React.Component<TestEditProps>{
         </div>
     }
 }
-export default TestEdit;
+export default TextEdit;
 

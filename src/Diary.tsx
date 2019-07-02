@@ -1,13 +1,15 @@
-import * as React from "react";
 import { hot } from "react-hot-loader/root";
+import * as React from "react";
 import Title from "./components/Title";
 import Table from "./components/Table";
 import {TypeDiary, mesageSaveTestArea} from "./components/Constants";
 import {Button} from "react-bootstrap";
-import TestEdit from "./components/TestEdit";
+import TextEdit from "./components/TextEdit";
 
 export interface DiaryProps {
 }
+
+export type OnChangeTextHandler = (rowName: "valueTextarea" | "valueDate") => (value: any) => void;
 
 export interface DiaryState {
     valueDate: Date;
@@ -108,15 +110,11 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         }
     };
 // Изменение состояния valueTextarea или valueDate после изменения значения полей ввода Заметка или Дата
-    onChangeTextEdit = (valueTextEdit: Date|string) =>{
+    onChangeTextEdit = (rowName: "valueTextarea" | "valueDate") => (value: any) =>{
         // console.log("valueTextEdit", valueTextEdit);
-        typeof valueTextEdit == "string"?
         this.setState({
-            valueTextarea: valueTextEdit,
-        }):
-            this.setState({
-                valueDate: valueTextEdit,
-            })
+            [rowName]: value
+        } as any);
     };
     // очистка поля ввода textarea и сброс даты на текущую
     onClickClear = () => {
@@ -129,7 +127,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
     render(){
             return <div>
                 <Title/>
-                <TestEdit onChangeTextEdit={this.onChangeTextEdit}
+                <TextEdit onChangeTextEdit={this.onChangeTextEdit}
                           valueDate={this.state.valueDate}
                           valueTextarea={this.state.valueTextarea}
                 />

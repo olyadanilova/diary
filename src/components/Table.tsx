@@ -3,13 +3,14 @@ import TableHeader from "./TableHeader";
 import {TypeDiary} from "./Constants";
 import TableRow from "./TableRow";
 import ModalWindow from "./ModalWindow";
+import {OnChangeTextHandler} from "../Diary";
 
 export interface TableTextProps {
     listDiary: TypeDiary[];
     onClickDeleleRow: (row: TypeDiary)=> void;
     onClickReady: (row: TypeDiary)=> void;
     showing: boolean;
-    onChangeTextEdit:(valueDateEdit: Date|string) => void;
+    onChangeTextEdit: OnChangeTextHandler;
 }
 export interface TableTextState{
     isOpenModalTextEditor: boolean;
@@ -47,15 +48,13 @@ class Table extends React.Component<TableTextProps, TableTextState>{
         }, ()=> console.log("ROW", row, this.state.indexRowEdit));
 
     };
-    onChangeTextEditModal = (val: string|Date) => {
+    onChangeTextEditModal:OnChangeTextHandler = (rowName) => value => {
         // console.log("onChangeTextEditModal", val);
-        typeof val == "string"?
-            this.setState({
-                valueTextarea: val,
-            }):
-            this.setState({
-                valueDate: val,
-            })
+        this.setState({
+            [rowName]: value
+            } as any
+        );
+
     };
     onUbdateListDiary = (listDiary: TypeDiary[], rowNew: TypeDiary) => {
         listDiary.splice(this.state.indexRowEdit, 1, rowNew);
