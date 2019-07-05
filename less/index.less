@@ -6,7 +6,6 @@
   &:focus, &.focus {
     box-shadow: none !important;
     outline: none;
-    //border-color: #fff !important;
     background-color: @base-button-bgcolor !important;
   }
   &:active:focus{
@@ -31,9 +30,6 @@
   }
 }
 .table-with-border {
-  //&:first-child{
-  //  border-top: @base-border;
-  //}
   border-bottom: @base-border;
   font-size: 16px;
 }
@@ -56,31 +52,25 @@ H5 {
 }
 .table-header{
   font-family: @base-font-family-caption;
-  //font-size: @base-font-size;
 }
 textarea {
   width: 550px;
   height: 100px;
   border: 1px solid #ced4da;
   padding-left: 5px;
-  //margin-bottom: 10px;
 }
 .react-datepicker-wrapper{
   width: 100px;
 }
 input{
   width: 550px;
-  height: 31px;
+  height: 33px;
   border: 1px solid #ced4da;
   padding-left: 5px;
 }
 .input-group{
   padding-left: 10px;
 }
-//.btn-form, .btn-left{
-  //width: 107px;
-  //text-align: center;
-//}
 .btn-right{
   width: 130px;
 }
@@ -98,11 +88,6 @@ input{
     border-color: @base-button-hover-bgcolor;
   }
 }
-// найти класс и удалить
-// .btn-left{
-//  padding-left: 10px;
-//  margin-left: 25px;
-//}
 .table-header{
   font-size: 18px;
   font-weight: bold;
@@ -185,7 +170,10 @@ button{
     color:@base-button-color;
     font-family: @base-font-family-button;
     font-size: 11pt !important;
-
+    p{
+      color: #ff6f69;
+      padding-left: 5px;
+    }
   }
   .form-control:focus{
     outline: none;
@@ -203,9 +191,3 @@ input[type=date]::-webkit-inner-spin-button {
 .alert {
   color: white;
 }
-.input-group-text {
-  p{
-    color: #ff6f69;
-    padding-left: 5px;
-  }
-};
