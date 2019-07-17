@@ -68,7 +68,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             this.setState({
                 listDiary: res.data
             });
-console.log(res.data)
+        console.log(res.data)
         })
         // console.log("date и textArea", date + "   " + text);
         // this.setState({
@@ -114,13 +114,19 @@ console.log(res.data)
         //         localStorage.setItem('form', JSON.stringify(this.state.listDiary));
         //     });
     };
-    onClickDeleleRow = (row: TypeDiary) => {
-
-        this.setState({
-            listDiary: this.state.listDiary.filter((el) => el!=row)
-        },()=>{
-            // localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+    onClickDeleleRow = (id: number) => {
+        console.log("row", id);
+        axios.delete<TypeDiary[]>( 'http://localhost:3000/diary/'+ id).then((res)=>{
+            this.setState({
+                listDiary: res.data
+            })
+            console.log("asjaidshiu", res.data);
         });
+        // this.setState({
+        //     listDiary: this.state.listDiary.filter((el) => el!=row)
+        // },()=>{
+        //     // localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+        // });
     };
     onClickShowTable = () => {
         if (this.state.showing) {
@@ -150,7 +156,6 @@ console.log(res.data)
 
     render(){
             return <div>
-                <form action={"http://localhost:3000/diary"} method={'GET'}>
                 <Title/>
                 <TextEdit onChangeTextEdit={this.onChangeTextEdit}
                           valueDate={this.state.valueDate}
@@ -166,7 +171,6 @@ console.log(res.data)
                        onClickReady={this.onClickReady}
                        onChangeTextEdit={this.onChangeTextEdit}
                 />
-                </form>
             </div>
     }
 }

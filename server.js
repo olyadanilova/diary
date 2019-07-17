@@ -25,6 +25,24 @@ console.log(request.body);
     respons.json(testList);
 });
 
+// app.delete('/diary', (request, respons)=>{
+//     console.log(respons.body);
+//     diaryDB.delete("/diary[]", {
+//         note: request.body.note,
+//         date: request.body.date
+//     }, true)
+// })
+app.delete('/diary/:id', (request, respons)=>{
+    console.log("request", request.params.id);
+    const testList = diaryDB.getData("/diary").filter((el, id)=> id!=request.params.id)
+    diaryDB.push('/diary', testList, true)
+    // console.log("testList", testList);
+    respons.json(testList);
+    // diaryDB.delete("/diary",  request.body, true);
+    // const testList = diaryDB.getData("/diary");
+    // respons.json(testList);
+})
+
 // app.get('/list', (request, respons)=>{
 //     //seendFile - функция, которая позволяет отправить определенный файл
 //     const testList = diaryDB.getData("/list");
