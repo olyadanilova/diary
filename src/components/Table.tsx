@@ -7,8 +7,8 @@ import {OnChangeTextHandler} from "../Diary";
 
 export interface TableTextProps {
     listDiary: TypeDiary[];
-    onClickDeleleRow: (row: number)=> void;
-    onClickReady: (row: TypeDiary)=> void;
+    onClickDeleleRow: (index: number)=> void;
+    onClickReady: (index: number, row: TypeDiary)=> void;
     showing: boolean;
     onChangeTextEdit: OnChangeTextHandler;
 }

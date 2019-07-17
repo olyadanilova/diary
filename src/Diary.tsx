@@ -83,24 +83,34 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         // });
     };
     // Изменение стиля строки - "Выполнено"
-    onClickReady =(row: TypeDiary) => {
-        // console.log("onClickReady", row);
-        let rowStyle:string;
-        let newList:TypeDiary[]=this.state.listDiary;
-        let rowNewStyle:TypeDiary;
-        let indexRow:number;
-        if (row.rowReady){
-            rowStyle = ""
-        } else{
-            rowStyle= "row-ready"
-        }
-        indexRow=this.state.listDiary.indexOf(row);
-        rowNewStyle = {note: row.note, date: row.date, rowReady: rowStyle};
-        newList.splice(indexRow, 1, rowNewStyle);
-        // console.log("newList", newList);
-        this.setState({
-            listDiary: newList
-        })
+    onClickReady =(index: number, row: TypeDiary) => {
+
+
+        console.log("onClickReady, index-", index + "   rowReady-" +  row.rowReady);
+        axios.patch<any>('http://localhost:3000/diary/' + index, {note: row.note, date: row.date, rowReady: row.rowReady}).then(res=>{
+            this.setState({
+                listDiary: res.data
+            });
+            console.log("patch", res.data)
+            }
+        )
+        // onClickReady =(row: TypeDiary) => {
+        // let rowStyle:string;
+        // let newList:TypeDiary[]=this.state.listDiary;
+        // let rowNewStyle:TypeDiary;
+        // let indexRow:number;
+        // if (row.rowReady){
+        //     rowStyle = ""
+        // } else{
+        //     rowStyle= "row-ready"
+        // }
+        // indexRow=this.state.listDiary.indexOf(row);
+        // rowNewStyle = {note: row.note, date: row.date, rowReady: rowStyle};
+        // newList.splice(indexRow, 1, rowNewStyle);
+        // // console.log("newList", newList);
+        // this.setState({
+        //     listDiary: newList
+        // })
         // , () => localStorage.setItem('form', JSON.stringify(this.state.listDiary)))
         //     this.setState({
         //         listDiary:[
@@ -114,13 +124,13 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         //         localStorage.setItem('form', JSON.stringify(this.state.listDiary));
         //     });
     };
-    onClickDeleleRow = (id: number) => {
-        console.log("row", id);
-        axios.delete<TypeDiary[]>( 'http://localhost:3000/diary/'+ id).then((res)=>{
+    onClickDeleleRow = (index: number) => {
+        console.log("index удаляемой строки", index);
+        axios.delete<TypeDiary[]>( 'http://localhost:3000/diary/'+ index).then((res)=>{
             this.setState({
                 listDiary: res.data
-            })
-            console.log("asjaidshiu", res.data);
+            });
+            console.log("массив без удаленной строки", res.data);
         });
         // this.setState({
         //     listDiary: this.state.listDiary.filter((el) => el!=row)

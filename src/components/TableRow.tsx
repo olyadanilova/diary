@@ -5,8 +5,8 @@ import {dateFormatter} from "./utils/utils";
 
 export interface TableProps {
     listDiary: TypeDiary[];
-    onClickDeleleRow: (row: number)=> void;
-    onClickReady: (row: TypeDiary)=> void;
+    onClickDeleleRow: (index: number)=> void;
+    onClickReady: (index: number, row: TypeDiary)=> void;
     onClickEdit: (row: TypeDiary)=> void;
     showing: boolean;
 }
@@ -42,7 +42,7 @@ class TableRow extends React.Component<TableProps, any>{
                         </Button>
                         <Button className="btn-table" title={"Выполнено"}
                                 onClick={() => {
-                                    this.props.onClickReady(el)
+                                    this.props.onClickReady(index, el)
                                 }}>
                             <img src={"img/check.png"}/>
                         </Button>
