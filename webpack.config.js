@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+    devtool: "source-map",
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -14,11 +15,17 @@ module.exports = {
         }
     },
     devServer: {
-        contentBase: path.join(__dirname, ''),
-        port: 8000,
+        proxy: {
+            '/api': {
+                host: "localhost",
+                protocol: 'http:',
+                port: 3000
+            }
+        },
+        // contentBase: path.join(__dirname, ''),
+        port: 8080,
         hot: true,
-        inline: true,
-
+        inline: true
     },
     module: {
         rules: [

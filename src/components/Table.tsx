@@ -58,7 +58,7 @@ class Table extends React.Component<TableTextProps, TableTextState>{
     };
     onUbdateListDiary = (listDiary: TypeDiary[], rowNew: TypeDiary) => {
         listDiary.splice(this.state.indexRowEdit, 1, rowNew);
-        localStorage.setItem('form', JSON.stringify(listDiary));
+        // localStorage.setItem('form', JSON.stringify(listDiary));
     };
     onClickSaveModal = () => {
         let textNew: string = this.state.valueTextarea;

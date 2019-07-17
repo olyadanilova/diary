@@ -5,6 +5,7 @@ import Table from "./components/Table";
 import {TypeDiary, mesageSaveTestArea} from "./components/Constants";
 import {Button} from "react-bootstrap";
 import TextEdit from "./components/TextEdit";
+import axios from "axios";
 
 export interface DiaryProps {
 }
@@ -29,14 +30,27 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
     };
 
     componentDidMount(): void{
+        axios.get<TypeDiary[]>( 'http://localhost:3000/diary').then(res=>{
+            this.setState({
+                        listDiary: res.data
+                    })
+        });
+        // fetch("http://localhost:3000/diary", {
+        //     method: "get"
+        // }).then(res => res.json()).then(array => {
+        //     this.setState({
+        //         listDiary: array
+        //     })
+        // })
+
         //  ('form')! - добавлена проверка, так как localStorage.getItem() может возвращать строку или ноль.
         // JSON.parse () требует строку, поэтому нужно проверить результат localStorage.getItem ()
         // this.state.listDiary = JSON.parse(localStorage.getItem('form')!);
-        if(localStorage.getItem('form')){
-            this.setState({
-                listDiary: JSON.parse(localStorage.getItem('form')!)
-            })
-        }
+        // if(localStorage.getItem('form')){
+        //     this.setState({
+        //         listDiary: JSON.parse(localStorage.getItem('form')!)
+        //     })
+        // }
         // this.state.valueDate = new Date().toLocaleString("ru", OPTIONS_DATA);
     }
 
@@ -47,17 +61,26 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             alert(mesageSaveTestArea)
     };
     saveList = (text: string, date: Date) =>{
+        axios.post<TypeDiary[]>("http://localhost:3000/diary", {
+            note: text,
+            date: date
+        }).then((res)=>{
+            this.setState({
+                listDiary: res.data
+            });
+console.log(res.data)
+        })
         // console.log("date и textArea", date + "   " + text);
-        this.setState({
-            listDiary: [
-                ...this.state.listDiary,
-                {
-                    note: text,
-                    date: date
-                }
-            ]}, () =>{
-            localStorage.setItem('form', JSON.stringify(this.state.listDiary));
-        });
+        // this.setState({
+        //     listDiary: [
+        //         ...this.state.listDiary,
+        //         {
+        //             note: text,
+        //             date: date
+        //         }
+        //     ]}, () =>{
+        //     // localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+        // });
     };
     // Изменение стиля строки - "Выполнено"
     onClickReady =(row: TypeDiary) => {
@@ -77,7 +100,8 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         // console.log("newList", newList);
         this.setState({
             listDiary: newList
-        }, () => localStorage.setItem('form', JSON.stringify(this.state.listDiary)))
+        })
+        // , () => localStorage.setItem('form', JSON.stringify(this.state.listDiary)))
         //     this.setState({
         //         listDiary:[
         //             ...this.state.listDiaryUbdate,
@@ -95,7 +119,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         this.setState({
             listDiary: this.state.listDiary.filter((el) => el!=row)
         },()=>{
-            localStorage.setItem('form', JSON.stringify(this.state.listDiary));
+            // localStorage.setItem('form', JSON.stringify(this.state.listDiary));
         });
     };
     onClickShowTable = () => {
@@ -126,6 +150,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
 
     render(){
             return <div>
+                <form action={"http://localhost:3000/diary"} method={'GET'}>
                 <Title/>
                 <TextEdit onChangeTextEdit={this.onChangeTextEdit}
                           valueDate={this.state.valueDate}
@@ -141,6 +166,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                        onClickReady={this.onClickReady}
                        onChangeTextEdit={this.onChangeTextEdit}
                 />
+                </form>
             </div>
     }
 }
