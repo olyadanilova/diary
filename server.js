@@ -15,6 +15,10 @@ app.use(bodyParser.urlencoded({
 
 app.use(cors());
 
+sortByParams = (params) => (obl1, obj2)=>{
+    return  +new Date(obl1[params])-(new Date(obj2[params]));
+};
+
 app.post('/diary', (request, respons)=>{
 console.log(request.body);
     diaryDB.push("/diary[]", {
@@ -32,35 +36,30 @@ app.delete('/diary/:index', (request, respons)=>{
     // console.log("testList", testList);
     respons.json(testList);
 })
+
 app.patch('/diary/:index', (request, respons)=>{
     console.log("request", request.params.index);
-    let rowStyle = request.body.rowReady;
-    if (request.body.rowReady){
-        rowStyle = ""
-    } else{
-        rowStyle = "row-ready"
-    }
     diaryDB.getData("/diary").splice(request.params.index, 1, {
         note: request.body.note,
         date: request.body.date,
-        rowReady: rowStyle
+        rowReady: request.body.rowReady
     });
-    const testList = diaryDB.getData("/diary");
-        // console.log("testList1", testList);
+    const testList = diaryDB.getData("/diary").sort(sortByParams("date"));
     diaryDB.push('/diary', testList, true);
     respons.json(testList);
-    console.log("testList", testList);
+    // console.log("testList", testList);
 });
 
 app.use(express.static(path.resolve(__dirname)));
 // app.use(express.static('dist'));
+
 app.get('/', (request, respons)=>{
     //seendFile - функция, которая позволяет отправить определенный файл
     respons.sendFile(__dirname + '/index.html')
 });
 
 app.get('/diary', (request, respons)=>{
-    const testString = diaryDB.getData("/diary");
+    const testString = diaryDB.getData("/diary").sort(sortByParams("date"));
     respons.json(testString);
     // respons.json([1, 5, 666]);
 });

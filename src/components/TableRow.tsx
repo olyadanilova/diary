@@ -7,7 +7,7 @@ export interface TableProps {
     listDiary: TypeDiary[];
     onClickDeleleRow: (index: number)=> void;
     onClickReady: (index: number, row: TypeDiary)=> void;
-    onClickEdit: (row: TypeDiary)=> void;
+    onClickEdit: (index: number, row: TypeDiary)=> void;
     showing: boolean;
 }
 
@@ -17,14 +17,14 @@ class TableRow extends React.Component<TableProps, any>{
         let arrayList: TypeDiary[] = this.props.listDiary;
         // console.log("arrayList", arrayList);
         let tableDiary:any;
-        let arrayListNew: TypeDiary[];
+        // let arrayListNew: TypeDiary[];
         if (arrayList){
-            arrayListNew = arrayList.sort(function (a:TypeDiary,b: TypeDiary):number {
-                let dateA:Date = new Date(a.date);
-                let dateB:Date = new Date(b.date);
-                return  +dateA-(+dateB);
-            });
-        tableDiary = arrayListNew.map((el, index)=> {
+            // arrayListNew = arrayList.sort(function (a:TypeDiary,b: TypeDiary):number {
+            //     let dateA:Date = new Date(a.date);
+            //     let dateB:Date = new Date(b.date);
+            //     return  +dateA-(+dateB);
+            // });
+        tableDiary = arrayList.map((el, index)=> {
             // console.log("el", el);
             let styleRowReady = "table-with-border " + el.rowReady;
             return <div key={index}>
@@ -49,7 +49,7 @@ class TableRow extends React.Component<TableProps, any>{
                         <Button className="btn-table" title={"Редактировать"}>
                             <img src={"img/edit.png"}
                                  onClick={() => {
-                                this.props.onClickEdit(el)
+                                this.props.onClickEdit(index, el)
                             }}/>
                         </Button>
                     </Col>

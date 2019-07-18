@@ -26,7 +26,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         valueTextarea: "",
         listDiary: [],
         listDiaryUbdate:[],
-        showing: false,
+        showing: true,
     };
 
     componentDidMount(): void{
@@ -55,7 +55,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
     }
 
     // Сохранение значений даты и текста в listDiary
-    onClickSave= () =>{
+    onClickSave = () =>{
         this.state.valueTextarea.length>0?
             this.saveList(this.state.valueTextarea, this.state.valueDate):
             alert(mesageSaveTestArea)
@@ -68,7 +68,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             this.setState({
                 listDiary: res.data
             });
-        console.log(res.data)
+        console.log("результат сохранения", res.data)
         })
         // console.log("date и textArea", date + "   " + text);
         // this.setState({
@@ -82,16 +82,25 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         //     // localStorage.setItem('form', JSON.stringify(this.state.listDiary));
         // });
     };
+    afterOnClickSaveModal = ( listDiary: TypeDiary[]) => {
+        this.setState({
+            listDiary: listDiary
+        });
+    };
     // Изменение стиля строки - "Выполнено"
     onClickReady =(index: number, row: TypeDiary) => {
-
-
-        console.log("onClickReady, index-", index + "   rowReady-" +  row.rowReady);
-        axios.patch<any>('http://localhost:3000/diary/' + index, {note: row.note, date: row.date, rowReady: row.rowReady}).then(res=>{
+        console.log("что приходит по клику на onClickReady, index-", index + "   rowReady-" +  row.rowReady);
+        let rowStyle:string;
+        if (row.rowReady){
+            rowStyle = ""
+        } else{
+            rowStyle = "row-ready"
+        }
+        axios.patch<TypeDiary[]>('http://localhost:3000/diary/' + index, {note: row.note, date: row.date, rowReady: rowStyle}).then(res=>{
             this.setState({
                 listDiary: res.data
             });
-            console.log("patch", res.data)
+            console.log("массив после изменения свойства готовности", res.data)
             }
         )
         // onClickReady =(row: TypeDiary) => {
@@ -180,6 +189,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                        onClickDeleleRow={this.onClickDeleleRow}
                        onClickReady={this.onClickReady}
                        onChangeTextEdit={this.onChangeTextEdit}
+                       afterOnClickSaveModal={this.afterOnClickSaveModal}
                 />
             </div>
     }

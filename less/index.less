@@ -3,6 +3,10 @@
 .btn-primary {
   color: @base-button-color;
   border: @base-border-button;
+  &:active{
+    //border-color: @base-button-hover-bgcolor !important;
+    border-color: @base-button-bgcolor !important;
+  }
   &:focus, &.focus {
     box-shadow: none !important;
     outline: none;
@@ -58,6 +62,7 @@ textarea {
   height: 100px;
   border: 1px solid #ced4da;
   padding-left: 5px;
+  min-height: 33px;
 }
 .react-datepicker-wrapper{
   width: 100px;

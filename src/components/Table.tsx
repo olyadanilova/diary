@@ -4,6 +4,7 @@ import {TypeDiary} from "./Constants";
 import TableRow from "./TableRow";
 import ModalWindow from "./ModalWindow";
 import {OnChangeTextHandler} from "../Diary";
+import axios from "axios";
 
 export interface TableTextProps {
     listDiary: TypeDiary[];
@@ -11,6 +12,7 @@ export interface TableTextProps {
     onClickReady: (index: number, row: TypeDiary)=> void;
     showing: boolean;
     onChangeTextEdit: OnChangeTextHandler;
+    afterOnClickSaveModal: (listDiary: TypeDiary[]) => void;
 }
 export interface TableTextState{
     isOpenModalTextEditor: boolean;
@@ -35,15 +37,13 @@ class Table extends React.Component<TableTextProps, TableTextState>{
         })
     };
 
-    onClickEdit = (row: TypeDiary) => {
-        let indexRow: number = this.props.listDiary.indexOf(row);
+    onClickEdit = (index: number, row: TypeDiary) => {
         let rowReadyCur: string = row.rowReady?row.rowReady:"";
-        console.log("rowReadyCur", rowReadyCur);
         this.setState({
             isOpenModalTextEditor: true,
             valueTextarea: row.note,
-            valueDate: row.date,
-            indexRowEdit: indexRow,
+            valueDate: new Date(row.date),
+            indexRowEdit: index,
             rowReady: rowReadyCur
         }, ()=> console.log("ROW", row, this.state.indexRowEdit));
 
@@ -54,22 +54,38 @@ class Table extends React.Component<TableTextProps, TableTextState>{
             [rowName]: value
             } as any
         );
-
     };
-    onUbdateListDiary = (listDiary: TypeDiary[], rowNew: TypeDiary) => {
-        listDiary.splice(this.state.indexRowEdit, 1, rowNew);
-        // localStorage.setItem('form', JSON.stringify(listDiary));
-    };
+    // onUbdateListDiary = (listDiary: TypeDiary[], rowNew: TypeDiary) => {
+    //     listDiary.splice(this.state.indexRowEdit, 1, rowNew);
+    //     // localStorage.setItem('form', JSON.stringify(listDiary));
+    // };
     onClickSaveModal = () => {
-        let textNew: string = this.state.valueTextarea;
-        let dateNew: Date = this.state.valueDate;
-        let rowReadyNew: string = this.state.rowReady;
-        let rowNew: TypeDiary = {note: textNew, date: dateNew, rowReady:rowReadyNew};
-        let rowCur: TypeDiary = this.props.listDiary[this.state.indexRowEdit];
-        if (rowCur.note==textNew && rowCur.date==dateNew){
-            this.onCloseModalWindow()
-        }
-        this.onUbdateListDiary(this.props.listDiary, rowNew);
+        // let rowNew: TypeDiary = {
+        //     note: this.state.valueTextarea,
+        //     date: this.state.valueDate,
+        //     rowReady: this.state.rowReady};
+        // console.log("Save_rowNew", rowNew);
+        axios.patch<TypeDiary[]>('http://localhost:3000/diary/' + this.state.indexRowEdit, {
+            note: this.state.valueTextarea,
+            date:  this.state.valueDate,
+            rowReady: this.state.rowReady
+        }).then(res=>{
+            this.props.afterOnClickSaveModal(res.data);
+                // this.setState({
+                //     listDiary: res.data
+                // });
+                console.log("массив после нажатия сохранить модальную форму", res.data)
+            }
+        );
+        // let textNew: string = this.state.valueTextarea;
+        // let dateNew: Date = this.state.valueDate;
+        // let rowReadyNew: string = this.state.rowReady;
+        // let rowNew: TypeDiary = {note: textNew, date: dateNew, rowReady:rowReadyNew};
+        // let rowCur: TypeDiary = this.props.listDiary[this.state.indexRowEdit];
+        // if (rowCur.note==textNew && rowCur.date==dateNew){
+        //     this.onCloseModalWindow()
+        // }
+        // this.onUbdateListDiary(this.props.listDiary, rowNew);
         // console.log("NewList - обновленный listDiary", this.props.listDiary);
         this.onCloseModalWindow()
     };
