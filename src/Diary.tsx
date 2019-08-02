@@ -2,10 +2,11 @@ import { hot } from "react-hot-loader/root";
 import * as React from "react";
 import Title from "./components/Title";
 import Table from "./components/Table";
-import {TypeDiary, mesageSaveTestArea} from "./components/Constants";
+import {TypeDiary} from "./components/Constants";
 import {Button} from "react-bootstrap";
 import TextEdit from "./components/TextEdit";
 import axios from "axios";
+import MessageAddDiary from "./components/MessageAddDiary";
 
 export interface DiaryProps {
 }
@@ -18,6 +19,7 @@ export interface DiaryState {
     listDiary: TypeDiary[];
     listDiaryUbdate: TypeDiary[];
     showing: boolean;
+    showingMessage: boolean;
 }
 export class Diary extends React.Component<DiaryProps, DiaryState>{
 
@@ -27,6 +29,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
         listDiary: [],
         listDiaryUbdate:[],
         showing: true,
+        showingMessage: false,
     };
 
     componentDidMount(): void{
@@ -58,15 +61,20 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
     onClickSave = () =>{
         this.state.valueTextarea.length>0?
             this.saveList(this.state.valueTextarea, this.state.valueDate):
-            alert(mesageSaveTestArea)
+            // alert(messageSaveTestArea)
+        this.setState({
+            showingMessage: true
+            })
     };
     saveList = (text: string, date: Date) =>{
+        console.log("d cj[hfytybt pfikb");
         axios.post<TypeDiary[]>("http://localhost:3000/diary", {
             note: text,
             date: date
         }).then((res)=>{
             this.setState({
-                listDiary: res.data
+                listDiary: res.data,
+                showingMessage: false
             });
         console.log("результат сохранения", res.data)
         })
@@ -172,10 +180,17 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
             valueDate: new Date,
         })
     };
+    onClickCloseMessage = () =>{
+        this.setState({
+            showingMessage: false
+        })
+    };
 
     render(){
             return <div>
                 <Title/>
+                <MessageAddDiary showingMessage={this.state.showingMessage}
+                                 onClickCloseMessage={this.onClickCloseMessage}/>
                 <TextEdit onChangeTextEdit={this.onChangeTextEdit}
                           valueDate={this.state.valueDate}
                           valueTextarea={this.state.valueTextarea}
@@ -183,6 +198,7 @@ export class Diary extends React.Component<DiaryProps, DiaryState>{
                 <Button className="btn-form" onClick={this.onClickClear} >Очистить</Button>
                 <Button className="btn-form" onClick={this.onClickSave} >Сохранить</Button>
                 <br/>
+                {/*<hr align="center" width="auto" size="2" color="#ced4da" />*/}
                 <Button className="btn-show" onClick={this.onClickShowTable} >Показать/Скрыть список</Button>
                 <Table showing={this.state.showing}
                        listDiary={this.state.listDiary}

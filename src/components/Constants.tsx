@@ -1,4 +1,4 @@
-export const mesageSaveTestArea: string = "Не введен текст заметки!";
+export const messageSaveTestArea: string = "Не введен текст заметки!";
 
 export const OPTIONS_DATA = {
     year: 'numeric',

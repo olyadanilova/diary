@@ -1,8 +1,14 @@
 @import "variable";
 @import "~react-datepicker/dist/react-datepicker.css";
+body{
+  //text-align: center;
+  background-image: url(/img/diary.png);
+  overflow-x: hidden;
+}
 .btn-primary {
   color: @base-button-color;
   border: @base-border-button;
+  font-weight: 600;
   &:active{
     //border-color: @base-button-hover-bgcolor !important;
     border-color: @base-button-bgcolor !important;
@@ -54,6 +60,10 @@ H5 {
   font-family: @base-font-family-caption;
   padding-left: 20px;
 }
+.alert-heading{
+  font-family: @base-font-family-caption;
+  font-size: 16pt;
+}
 .table-header{
   font-family: @base-font-family-caption;
 }
@@ -102,7 +112,7 @@ input{
 button{
   margin-top: 5px;
   &.close{
-    color: red;
+    outline: none;
   }
 }
 
@@ -120,7 +130,7 @@ button{
 }
 
 .row-ready {
-  color: #2196F3;
+  color: @base-button-color;
   text-decoration: line-through;
 }
 
@@ -164,17 +174,19 @@ button{
      padding-bottom: 0;
   .input-group-prepend{
     width: 93px;
-    background-color: #e9ecef;
+    background-color: #e2f1ee; //#e9ecef;
     border: 1px solid #ced4da;
     border-top-left-radius: .25rem;
     border-bottom-left-radius: .25rem;
   }
   .input-group-text{
+    background-color: inherit;
     padding-left: 13px;
     border: none;
     color:@base-button-color;
     font-family: @base-font-family-button;
     font-size: 11pt !important;
+    font-weight: 600;
     p{
       color: #ff6f69;
       padding-left: 5px;
@@ -192,7 +204,4 @@ button{
 input[type=date]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   display: none;
-}
-.alert {
-  color: white;
 }

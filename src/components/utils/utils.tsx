@@ -1,7 +1,8 @@
-import {OPTIONS_DATA} from "../Constants";
 /**
  * Форматирование даты
  */
+import {OPTIONS_DATA} from "../Constants";
+
 export const dateFormatter = (value: Date) => {
     return new Date(value).toLocaleString("ru", OPTIONS_DATA)
 };

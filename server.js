@@ -25,7 +25,7 @@ console.log(request.body);
         note: request.body.note,
         date: request.body.date
     }, true)
-    const testList = diaryDB.getData("/diary");
+    const testList = diaryDB.getData("/diary").sort(sortByParams("date"));
     respons.json(testList);
 });
 
